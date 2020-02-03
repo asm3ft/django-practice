@@ -1,14 +1,56 @@
 <!DOCTYPE html>
 {% load static %}
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
 
-<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Polls</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Vote</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Poll Results</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Suggestions</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
 {% if latest_question_list %}
-    <ul>
+    <ul class="list-group">
     {% for question in latest_question_list %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+        <li class="list-group-item"><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
+<div class="text-center">
     <p>No polls are available.</p>
+    <img src="https://cdn.shopify.com/s/files/1/1061/1924/products/Sad_Face_Emoji_large.png?v=1571606037">
+</div>
 {% endif %}
+
+<!-- Footer -->
+<footer class="page-footer font-small black">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2020 Copyright:
+    <a href="https://vsco.co/annamorse/images"> Anna Morse (asm3ft)</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
 </html>

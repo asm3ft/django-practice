@@ -5,41 +5,26 @@ from django.views import generic
 from django.utils import timezone
 
 from .models import Choice, Question, Suggestion
-from .forms import suggestion
+from .forms import SuggestionForm
 
 
 def suggest_view(request):
-    if request.method == 'GET':
-        form = suggestion()
-        return render(request, 'polls/suggestion.html', {'form':form})
+    form = SuggestionForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+    form = SuggestionForm()
 
-    if request.method == 'POST':
-        form = suggestion(request.POST)
-        if form.is_valid():
-            form.save()
-            name = form.cleaned_data['name']
-            text = form.cleaned_data['suggestion_body']
-
-            form = suggestion()
-            args = {'form': form, 'name': name, 'text': text}
-            return render(request, 'polls/suggestion.html', args)
-        return render(request, 'polls/suggestion.html', {'form': form})
+    context = {
+        'form': form,
+    }
+    return render(request, 'polls/suggestion.html', context)
 
 
 def suggest_list_view(request):
     if request.method == 'GET':
-        s = Suggestion.objects.all()
-        context = {
-            's': s
-        }
-        return render(request, 'polls/list.html', context)
-
-# class AllSuggestionsView(generic.ListView):
-#     template_name = 'polls/list.html'
-#     context_object_name = 'suggestions_list'
-#
-#     def get_queryset(self):
-#         return Suggestion.objects.all()
+        suggestion_list = Suggestion.objects.all()
+        print(suggestion_list)
+        return render(request, 'polls/list.html', {'s': suggestion_list,})
 
 
 class IndexView(generic.ListView):
